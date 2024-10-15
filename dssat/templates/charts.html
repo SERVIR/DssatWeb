@@ -199,11 +199,11 @@ abbr:hover::after {
     <p>This chart shows the possible yield values to be expected in the region according to the parameters defined by the user. The bar represents the range of yield values attainable given the defined management options and the different soil and weather conditions in the region. Each time you click run, a new bar is added to the chart, that way you can compare the different management options in consideration.</p>
                     <div id="column_chart"></div>
     </div>
-                    <div style="border:darkgray 1px solid;border-radius: 10px;padding: 10px;margin-bottom: 30px;">
+                    {% comment %} <div style="border:darkgray 1px solid;border-radius: 10px;padding: 10px;margin-bottom: 30px;">
                         <h5>Dssat Simulated Maize Yield Anomaly Probability:</h5>
                         <p>Similar to the previous chart, but it shows a probability instead of absolute values. It shows the probabilities of obtaining yield values in three main categories: lower than normal, higher than normal, or within normal range.</p>
    <div id="anomaly_chart"></div>
-</div>
+</div> {% endcomment %}
                     <div style="border:darkgray 1px solid;border-radius: 10px;padding: 10px;margin-bottom: 30px;">
                         <h5>Environmental Stress:</h5>
                         <p> Each chart shows the average stress experienced by the crop during the different developmental stages as simulated by the model. This chart gives insights on the moments where the crop is experiencing stress due to the lack of resources (water/nitrogen).</p>

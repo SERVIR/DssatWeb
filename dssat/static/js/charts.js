@@ -44,22 +44,22 @@
 //     )
 
  // chart.addSeries(data.chart,true);
- var index = $("#chart").data('highchartsChart');
+var index = $("#chart").data('highchartsChart');
 var baseline_chart= Highcharts.charts[index];
 
 
-        // document.getElementById('baseline_desc').innerHTML = data.desc;
-        var select = document.getElementById("cultivar");
-        var options = cultivar_values;
-        var option_keys =cultivar_keys;
+// document.getElementById('baseline_desc').innerHTML = data.desc;
+var select = document.getElementById("cultivar");
+var options = cultivar_values;
+var option_keys =cultivar_keys;
 
-        for (var i = 0; i < options.length; i++) {
-            var opt = options[i];
-            var el = document.createElement("option");
-            el.textContent = opt;
-            el.value = option_keys[i];
-            select.appendChild(el);
-        }
+for (var i = 0; i < options.length; i++) {
+    var opt = options[i];
+    var el = document.createElement("option");
+    el.textContent = opt;
+    el.value = option_keys[i];
+    select.appendChild(el);
+}
 
 
     // });

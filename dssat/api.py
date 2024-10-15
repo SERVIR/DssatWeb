@@ -52,7 +52,7 @@ def validation_ch(request, admin1):
     desc = selector_pars["session"].adminBase.baseline_description() + \
            ". If the assumptions are not accurate you can set your own baseline scenario."
     val_chart = validation_chart(selector_pars["session"])
-    val_chart.container='chart'
+    val_chart["container"]='chart'
     session = selector_pars["session"]
     return desc, val_chart, list(session.adminBase.cultivar_labels.keys()), list(
         session.adminBase.cultivar_labels.values())
@@ -85,7 +85,7 @@ def regions_geojson(request):
             'properties', to_jsonb(inputs) - 'gid' - 'geom'
           ) AS feature
           FROM (SELECT * FROM {0}.admin) inputs) features;
-  """.format(schema);
+  """.format(schema)
     cur = con.cursor()
     cur.execute(query)
     rows = cur.fetchall()

@@ -7,9 +7,10 @@
 /dssat/.ipynb_checkpoints
 /dssat/__pycache__
 .idea/
+/venv/
 # Ignore compiled Python files
 *.pyc
 
 # Ignore static files directory
-static/
+# static/
 db.sqlite3

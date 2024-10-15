@@ -7,8 +7,9 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 function load_charts(admin1){
-         window.location.href=window.location.protocol+'//'+window.location.host+'/charts/'+admin1+'/';
-
+    window.location.href=window.location.protocol
+        +'//'+window.location.host
+        +'/charts/'+admin1+'/';
 }
 
 function ajax_call(ajax_url, ajax_data) {
@@ -24,6 +25,7 @@ function ajax_call(ajax_url, ajax_data) {
         .fail(function (xhr, status, error) {
         });
 }
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -39,37 +41,35 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
 function zoomToRegions(schema){
     var json_data={'schema':schema};
-    var xhr= ajax_call('get-regions/',json_data);
+    var xhr = ajax_call('get-regions/',json_data);
  xhr.done(function(data){
      console.log(data)
      var geojson = L.geoJSON(data.rows,{onEachFeature: onEachFeature_regions}).addTo(map);
  });
 }
+
 function whenClicked(e) {
-            var country = e.target.feature.properties.country;
-            gcountry=country;
-              map.fitBounds(e.target.getBounds());
+    var country = e.target.feature.properties.country;
+    gcountry = country;
+    map.fitBounds(e.target.getBounds());
     zoomToRegions(country)
-
-
-
-
-
 }
+
 function whenClicked_region(e){
-            console.log(e.target.feature)
-            var admin1 = e.target.feature.properties.admin1;
-        console.log(admin1);
+    console.log(e.target.feature)
+    var admin1 = e.target.feature.properties.admin1;
+    console.log(admin1);
 
-        // var country = e.target.feature.properties.adm0_en;
-        console.log(e.target.feature.properties);
-            var str=[admin1,gcountry.toLowerCase().toString()].join('_');
+    // var country = e.target.feature.properties.adm0_en;
+    console.log(e.target.feature.properties);
+    var str=[admin1,gcountry.toLowerCase().toString()].join('_');
     console.log(str)
-        str="'"+str+"'";
+    str="'"+str+"'";
+    
     var popup = L.popup();
-
     popup.setLatLng(e.latlng)
          .setContent(
              '<h4>'+admin1+'</h4>'
@@ -77,13 +77,12 @@ function whenClicked_region(e){
              + '<br><br><center><button id="charts" class="btn btn-secondary" onclick="load_charts('+str+')">Load charts</button>')
         .openOn(map);
 }
-function onEachFeature(feature, layer) {
 
+function onEachFeature(feature, layer) {
     //bind click
     layer.on({
         click: whenClicked
     });
-
 }
 
 function onEachFeature_regions(feature, layer) {
@@ -91,17 +90,20 @@ function onEachFeature_regions(feature, layer) {
         click: whenClicked_region
     })
 }
-var  country_layer = L.geoJSON(shp_obj, {
-                style: {
-                    weight: 2,
-                    opacity: 1,
-                    color: '#000000',  //Outline color
-                    fillOpacity: 0.2,
-                     strokeWidth: 0,
-                },
-        onEachFeature: onEachFeature,
-                // onEachFeature: onEachFeature_country,
-            });
 
-            country_layer.addTo(map);
-            map.fitBounds(country_layer.getBounds());
+var  country_layer = L.geoJSON(
+    shp_obj, 
+    {
+        style: {
+            weight: 2,
+            opacity: 1,
+            color: '#000000',  //Outline color
+            fillOpacity: 0.2,
+                strokeWidth: 0,
+        },
+    onEachFeature: onEachFeature,
+        // onEachFeature: onEachFeature_country,
+    });
+
+country_layer.addTo(map);
+map.fitBounds(country_layer.getBounds());
