@@ -7,7 +7,7 @@ var gc;
 function get_daps(){
     var daps=[];
     let tbl = document.getElementById("nitrogen_table").getElementsByTagName('tbody')[0];
-    for(var i=0;i<tbl.rows.length;i++) {
+    for(var i=2;i<tbl.rows.length;i++) {
         daps.push(parseInt(tbl.rows[i].cells[0].innerText));
     }
 return daps;
@@ -16,7 +16,7 @@ return daps;
 function get_rates(){
   var rates=[];
     let tbl = document.getElementById("nitrogen_table").getElementsByTagName('tbody')[0];
-    for(var i=0;i<tbl.rows.length;i++) {
+    for(var i=2;i<tbl.rows.length;i++) {
 
 
         rates.push(parseInt(tbl.rows[i].cells[1].innerText));
@@ -84,35 +84,7 @@ function generate_charts() {
     xhr.done(function (data) {
         console.log(data);
         if(data.error.length===0) {
-            //
-            // var s = data.range_chart.series;
-            // var series = [];
-            //
-            // for (var i = 0; i < s.length; i++) {
-            //     var d = [];
-            //     if(s[i].length>1) {
-            //         console.log('iin if')
-            //         for (var j = 0; j < s[i].length; j++) {
-            //             d.push([s[i][j].data[0]['low'], s[i][j].data[0]['high']])
-            //
-            //         }
-            //          s[i].data=[d];
-            //     }
-            //     else {
-            //         d = [s[i].data[0]['low'], s[i].data[0]['high']]
-            //         s[i].data = [d];
-            //     }
-            //     series.push(s[i])
-            // }
-            //
-            // console.log(series)
-
             column_chart.addSeries(data.rdata, true);
-            // anomaly_chart.update({
-            //     xAxis: data.anomaly_chart.xAxis,
-            //     yAxis: data.anomaly_chart.yAxis,
-            //     series: data.anomaly_chart.series,
-            // });
             nitro_chart.addSeries(data.stress_chart_nitrogen, true);
             water_chart.addSeries(data.stress_chart_water, true);
             document.getElementById("spinner_button").style.display = "none";
@@ -177,24 +149,20 @@ function ajax_call(ajax_url, ajax_data) {
 }
 
 function addToBox() {
-    var val_rate = document.getElementById('customRange2').value;
-    var val_dap = document.getElementById('customRange1').value;
+    var val_dap = document.getElementById('nitro_dap').value;
+    var val_rate = document.getElementById('nitro_rate').value;
     if (val_dap && val_rate) {
-        var tbodyRef = document.getElementById('nitrogen_table').getElementsByTagName('tbody')[0];
-
-// Insert a row at the end of table
+        var tbodyRef = document.getElementById('nitrogen_table').getElementsByTagName('tbody')[0];       
+        lastRow = tbodyRef.rows.item(tbodyRef.rows.length - 1);
+        // Insert a row at the end of table
         var newRow = tbodyRef.insertRow();
-
-// Insert a cell at the end of the row
+        // Insert a cell at the end of the row
         var newCell = newRow.insertCell();
-
-// Append a text node to the cell
+        // Append a text node to the cell
         var newText = document.createTextNode(val_dap);
         newCell.appendChild(newText);
-
         newCell = newRow.insertCell();
-
-// Append a text node to the cell
+        // Append a text node to the cell
         newText = document.createTextNode(val_rate);
         newCell.appendChild(newText);
         newCell = newRow.insertCell();
@@ -210,7 +178,7 @@ function addToBox() {
         // newText = document.createTextNode('Delete');
         newCell.appendChild(newButton);
         newButton.onclick = function () {
-   newButton.closest('tr').remove()
+            newButton.closest('tr').remove()
         };
     } else {
         alert('please enter values')

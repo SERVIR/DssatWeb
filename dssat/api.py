@@ -70,6 +70,7 @@ def init_columnRange(admin1):
 @csrf_exempt
 def regions_geojson(request):
     schema = request.POST.get('schema')
+    # It'll bring the latest forecast
     query = """
             SELECT jsonb_build_object(
             'type',     'FeatureCollection',
@@ -84,7 +85,7 @@ def regions_geojson(request):
             'geometry',   ST_AsGeoJSON(geom)::jsonb,
             'properties', to_jsonb(inputs) - 'gid' - 'geom'
           ) AS feature
-          FROM (SELECT * FROM {0}.admin) inputs) features;
+          FROM (SELECT * FROM {0}.latest_forecast) inputs) features;
   """.format(schema)
     cur = con.cursor()
     cur.execute(query)

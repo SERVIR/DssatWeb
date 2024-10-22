@@ -18,7 +18,8 @@ from dssatservice.ui.base import AdminBase, Session
 from dssatservice.ui.plot import (
     init_anomalies_chart, init_stress_chart, get_stress_series_data,
     get_anomaly_series_data, get_columnRange_series_data,
-    init_columnRange_chart, clear_yield_chart, clear_stress_chart
+    init_columnRange_chart, clear_yield_chart, clear_stress_chart,
+    current_forecast_yield_plot, current_forecast_stress_plot
 )
 from dssat.api import init_columnRange, validation_ch
 from highcharts_core.chart import Chart
@@ -102,7 +103,8 @@ def charts(request, admin1='Nakuru_kenya'):
     session = get_session(request)
 
     # Initialize charts
-    anom_chart = init_anomalies_chart()
+    # anom_chart = init_anomalies_chart()
+    
     r_chart = init_columnRange_chart(session)
     stress_chart_water = init_stress_chart('water')
     stress_chart_nitrogen = init_stress_chart('nitrogen')
@@ -110,13 +112,13 @@ def charts(request, admin1='Nakuru_kenya'):
     # Set containers
     stress_chart_water["container"] = 'stress_chart_water'
     stress_chart_nitrogen["container"] = 'stress_chart_nitrogen'
-    anom_chart["container"] = 'anomaly_chart'
+    # anom_chart["container"] = 'anomaly_chart'
     r_chart["container"] = 'column_chart'
 
     # Convert charts to dictionary format and store in session
     request.session['range_chart'] = r_chart
     request.session['sw'] = stress_chart_water
-    request.session['anomaly_chart'] = anom_chart
+    # request.session['anomaly_chart'] = anom_chart
     request.session['sn'] = stress_chart_nitrogen
 
     # Load geographic data
@@ -124,19 +126,27 @@ def charts(request, admin1='Nakuru_kenya'):
     gdf = gpd.read_file(sFile)
     data = json.loads(json.dumps(gdf.to_json()))
 
-    desc, column, cultivars, x = validation_ch(request, admin1)
+    # desc, column, cultivars, x = validation_ch(request, admin1)
+    forecast_chart = current_forecast_yield_plot(session)
+    forecast_chart["container"] = "forecast_chart"
+    forecast_stress_chart = current_forecast_stress_plot(session)
+    forecast_stress_chart["container"] = "forecast_stress_chart"
+    # cultivars = list(session.adminBase.cultivar_labels.keys())
+    cultivars = [f"{i} season" for i in session.adminBase.cultivars.index]
+    cultivars_labels = [f"{i} season" for i in session.adminBase.cultivars.index]
+    desc = ""
 
     # Render the response
     return render(request, 'charts.html', {
         'admin1': admin1_name,
-        'admin1_country': admin1_country,
-        'desc': desc,  # Placeholder, modify as needed
+        'admin1_country': admin1_country.title(),
         'cultivar_keys': cultivars,  # Placeholder, modify as needed
-        'cultivar_values': x,  # Placeholder, modify as needed
-        'chart': to_js_literal(column),  # Placeholder, modify as needed
+        'cultivar_values': cultivars_labels,  # Placeholder, modify as needed
+        'forecast_chart': to_js_literal(forecast_chart),  # Placeholder, modify as needed
+        'forecast_stress_chart': to_js_literal(forecast_stress_chart),
         'data': data,
         'range_chart': to_js_literal(r_chart),
-        'anomaly_chart': to_js_literal(anom_chart),
+        # 'anomaly_chart': to_js_literal(anom_chart),
         'stress_chart_water': to_js_literal(stress_chart_water),
         'stress_chart_nitrogen': to_js_literal(stress_chart_nitrogen)
     })
@@ -155,7 +165,6 @@ def run_experiment(request, admin1):
 
         # Retrieve charts from the session
         range_chart = request.session.get('range_chart')
-        anomaly_chart = request.session.get('anomaly_chart')
         water_stress_chart = request.session.get('sw')
         nitro_stress_chart = request.session.get('sn')
 
@@ -180,41 +189,19 @@ def run_experiment(request, admin1):
             new_chart_data_range
         )
 
-        # new_chart_data_an = get_anomaly_series_data(session)
-        # for serie in anomaly_chart["userOptions"]["series"]:
-        #     if serie.get("data"):
-        #         serie["data"] += [new_chart_data_an[serie["name"]]]
-        #     else:
-        #         serie["data"] = [new_chart_data_an[serie["name"]]]
-
         new_chart_data_water = get_stress_series_data(
             session, stresstype="water"
         )
         n_exps = len(water_stress_chart["userOptions"]["series"])
         new_chart_data_water["name"] = f"Exp {n_exps + 1}"
-        # if not sw["userOptions"].get("series"):
-        #     new_chart_data_water["name"] = f"Exp 1"
-        #     sw["userOptions"]["series"] = [new_chart_data_water]
-        # else:
-        #     n_exps = len(sw["userOptions"]["series"])
-        #     new_chart_data_water["name"] = f"Exp {n_exps + 1}"
-        #     sw["userOptions"]["series"] += [new_chart_data_water]
 
         new_chart_data_nitro = get_stress_series_data(
             session, stresstype="nitrogen"
         )
         new_chart_data_nitro["name"] = f"Exp {n_exps + 1}"
-        # if not sn["userOptions"].get("series"):
-        #     new_chart_data_nitro["name"] = f"Exp 1"
-        #     sn["userOptions"]["series"] = [new_chart_data_nitro]
-        # else:
-        #     n_exps = len(sn["userOptions"]["series"])
-        #     new_chart_data_nitro["name"] = f"Exp {n_exps + 1}"
-        #     sn["userOptions"]["series"] += [new_chart_data_nitro]
 
         # Save the updated charts back to the session
         request.session['range_chart'] = range_chart
-        request.session['anomaly_chart'] = anomaly_chart
         request.session['sw'] = water_stress_chart
         request.session['sn'] = nitro_stress_chart
 
