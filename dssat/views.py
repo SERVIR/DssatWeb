@@ -132,16 +132,17 @@ def charts(request, admin1='Nakuru_kenya'):
     forecast_stress_chart = current_forecast_stress_plot(session)
     forecast_stress_chart["container"] = "forecast_stress_chart"
     # cultivars = list(session.adminBase.cultivar_labels.keys())
-    cultivars = [f"{i} season" for i in session.adminBase.cultivars.index]
-    cultivars_labels = [f"{i} season" for i in session.adminBase.cultivars.index]
+    cultivar_types = [f"{i} season" for i in session.adminBase.cultivars.index]
+    cultivar_codes = [i for i in session.adminBase.cultivars.cultivar]
     desc = ""
+    # print(cultivars, cultivars_codes)
 
     # Render the response
     return render(request, 'charts.html', {
         'admin1': admin1_name,
         'admin1_country': admin1_country.title(),
-        'cultivar_keys': cultivars,  # Placeholder, modify as needed
-        'cultivar_values': cultivars_labels,  # Placeholder, modify as needed
+        'cultivar_types': cultivar_types,  # Placeholder, modify as needed
+        'cultivar_codes': cultivar_codes,  # Placeholder, modify as needed
         'forecast_chart': to_js_literal(forecast_chart),  # Placeholder, modify as needed
         'forecast_stress_chart': to_js_literal(forecast_stress_chart),
         'data': data,
@@ -154,69 +155,69 @@ def charts(request, admin1='Nakuru_kenya'):
 
 @csrf_exempt
 def run_experiment(request, admin1):
-    try:
-        schema = request.POST.get('schema')
-        admin1 = request.POST.get('admin1')
+    # try:
+    schema = request.POST.get('schema')
+    admin1 = request.POST.get('admin1')
 
-        # Retrieve and recreate the session object
-        session = get_session(request)
-        if session is None:
-            return JsonResponse({'error': 'no session'})
+    # Retrieve and recreate the session object
+    session = get_session(request)
+    if session is None:
+        return JsonResponse({'error': 'no session'})
 
-        # Retrieve charts from the session
-        range_chart = request.session.get('range_chart')
-        water_stress_chart = request.session.get('sw')
-        nitro_stress_chart = request.session.get('sn')
+    # Retrieve charts from the session
+    range_chart = request.session.get('range_chart')
+    water_stress_chart = request.session.get('sw')
+    nitro_stress_chart = request.session.get('sn')
 
-        # Update session parameters
-        session.simPars.planting_date = datetime.strptime(request.POST.get('planting_date'), '%Y-%m-%d')
-        session.simPars.cultivar = request.POST.get('cultivar')
-        session.simPars.nitrogen_rate = [
-            int(i) for i in  request.POST.getlist('nitrogen_rate[]')
-        ]
-        session.simPars.nitrogen_dap = [
-            int(i) for i in request.POST.getlist('nitrogen_dap[]')
-        ]
-        session.run_experiment(fakerun=True)
+    # Update session parameters
+    session.simPars.planting_date = datetime.strptime(request.POST.get('planting_date'), '%Y-%m-%d')
+    session.simPars.cultivar = request.POST.get('cultivar')
+    session.simPars.nitrogen_rate = [
+        int(i) for i in  request.POST.getlist('nitrogen_rate[]')
+    ]
+    session.simPars.nitrogen_dap = [
+        int(i) for i in request.POST.getlist('nitrogen_dap[]')
+    ]
+    session.run_experiment(fakerun=True)
 
-        # Update charts with new data
-        series_len = len(range_chart["userOptions"]["series"])
-        
-        new_chart_data_range = get_columnRange_series_data(
-            session, series_len
-        ).to_dict()
-        range_chart["userOptions"]["series"].append(
-            new_chart_data_range
-        )
+    # Update charts with new data
+    series_len = len(range_chart["userOptions"]["series"])
+    
+    new_chart_data_range = get_columnRange_series_data(
+        session, series_len
+    ).to_dict()
+    range_chart["userOptions"]["series"].append(
+        new_chart_data_range
+    )
 
-        new_chart_data_water = get_stress_series_data(
-            session, stresstype="water"
-        )
-        n_exps = len(water_stress_chart["userOptions"]["series"])
-        new_chart_data_water["name"] = f"Exp {n_exps + 1}"
+    new_chart_data_water = get_stress_series_data(
+        session, stresstype="water"
+    )
+    n_exps = len(water_stress_chart["userOptions"]["series"])
+    new_chart_data_water["name"] = f"Exp {n_exps + 1}"
 
-        new_chart_data_nitro = get_stress_series_data(
-            session, stresstype="nitrogen"
-        )
-        new_chart_data_nitro["name"] = f"Exp {n_exps + 1}"
+    new_chart_data_nitro = get_stress_series_data(
+        session, stresstype="nitrogen"
+    )
+    new_chart_data_nitro["name"] = f"Exp {n_exps + 1}"
 
-        # Save the updated charts back to the session
-        request.session['range_chart'] = range_chart
-        request.session['sw'] = water_stress_chart
-        request.session['sn'] = nitro_stress_chart
+    # Save the updated charts back to the session
+    request.session['range_chart'] = range_chart
+    request.session['sw'] = water_stress_chart
+    request.session['sn'] = nitro_stress_chart
 
-        # Return the response
-        return JsonResponse({
-            'error': '',
-            # 'anomaly_chart': anomaly_chart["userOptions"],
-            # 'aseries': new_chart_data_an,
-            'rdata': new_chart_data_range,
-            'range_chart': range_chart["userOptions"],
-            'stress_chart_water': new_chart_data_water,
-            'stress_chart_nitrogen': new_chart_data_nitro
-        })
-    except Exception as e:
-        return JsonResponse({'error': str(e)})
+    # Return the response
+    return JsonResponse({
+        'error': '',
+        # 'anomaly_chart': anomaly_chart["userOptions"],
+        # 'aseries': new_chart_data_an,
+        'rdata': new_chart_data_range,
+        'range_chart': range_chart["userOptions"],
+        'stress_chart_water': new_chart_data_water,
+        'stress_chart_nitrogen': new_chart_data_nitro
+    })
+    # except Exception as e:
+    #     return JsonResponse({'error': str(e)})
 
 def about(request):
     return render(request, 'about.html')

@@ -5,8 +5,8 @@ var baseline_chart= Highcharts.charts[index];
 
 // document.getElementById('baseline_desc').innerHTML = data.desc;
 var select = document.getElementById("cultivar");
-var options = cultivar_values;
-var option_keys =cultivar_keys;
+var options = cultivar_types;
+var option_keys =cultivar_codes;
 
 for (var i = 0; i < options.length; i++) {
     var opt = options[i];
