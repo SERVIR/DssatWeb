@@ -56,7 +56,7 @@ abbr:hover::after {
     var admin1_country='{{ admin1_country|safe }}';
   </script>
 
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkseagreen;height: 70px">
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkolivegreen;height: 70px">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static 'img/SERVIR_flat_white2.png' %}" alt="SERVIR logo" style="height:40px; max-width: none;">
@@ -79,84 +79,12 @@ abbr:hover::after {
       </div>
     </div>
   </nav>
-
-  {% comment %} <div class="container-fluid" style="height: calc(100% - 70px)">
-    <div id="blur_div" style="position: absolute; height: calc(100% - 70px); width: 100%;
-    background: #ffffffa6; overflow: hidden; display: none; /* z-index: 999; */ z-index: 500;">
-    </div>
-    <button class="btn btn-success" type="button" disabled id="spinner_button" style="position: absolute; top: 50%; left: 50%; z-index: 999;display: none">
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Loading...
-    </button>
-    <div class="row">
-      <div class="col-md-3 h-100 bg-secondary-subtle">
-        <div>
-          <h4 class="mt-2">Select crop management parameters</h4>
-        <div>
-        <label for="startDate">
-          Planting date <abbr data-title="The date the crop was or will be planted."><i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
-        </label>
-        <input id="startDate" class="form-control" type="date"/>
-      </div>
-
-      <label for="cultivar">
-        Cultivar <abbr data-title="Crop variety."> <i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
-      </label>
-      <select id="cultivar" class="form-select"></select>
-      <br>
-      <div>
-        <p>
-          <strong>Nitrogen Fertilizer </strong>
-          <abbr data-title=" Nitrogen fertilizer applications. Each application is defined by the application day (days after planting) and the application rate (Kg of Nitrogen per hectare)."><i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
-        </p>
-        <div class="row">
-          <div class="col">
-            <div class="row">
-              <label for="customRange1" class="w-50">
-                Day of application: 
-              </label>
-              <label for="customRange2" class="w-50">
-                Nitrogen rate(kg/ha):
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <input type="number"  class="w-75 form-control" id="customRange1" min="0" max="200"/>
-          </div>
-          <div class="col">
-            <input type="number" id="customRange2" class="w-75 form-control" min="0" max="999"/>
-          </div>
-        </div>
-      </div>
-      <br>
-      <button class="btn btn-outline-success" onclick="addToBox()">
-        Add fertilizer application
-      </button>
-    </div>
-    <br>
-    <div>
-      <table class="table table-bordered" id="nitrogen_table">
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>Rate</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <button class="btn btn-success w-50" onclick="generate_charts()">
-      Run experiment
-    </button>
-    <br>
-    <button class="btn btn-danger mt-1 w-50" onclick="clear_charts()">
-      Clear charts
-    </button>
-  </div> {% endcomment %}
+  <div id="blur_div" style="position: fixed; background: #ffffffa6; overflow: hidden; display: none; /* z-index: 999; */ z-index: 500; inset: 0">
+  </div> 
+  <button class="btn btn-success" type="button" disabled id="spinner_button" style="position: fixed; top: 50%; left: 50%; z-index: 999;display: none;">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Running simulations...
+  </button>
 
   <div class="col mx-auto charts_column">
     <h4 class="mt-2">
@@ -176,8 +104,8 @@ abbr:hover::after {
         The plots below sumarize the results of the forecast. The left hand side plot shows the distribution of the simulated yield values. The right hand side plot shows the crop water and nitrogen fertilizer stress during the season across different phenological stages.
       </h6>
       <div class="row">
-        <div class="col-3" id="forecast_chart"></div>
-        <div class="col-9" id="forecast_stress_chart"></div>
+        <div class="col-md-3" id="forecast_chart"></div>
+        <div class="col-md-9" id="forecast_stress_chart"></div>
       </div>
       <br> 
       <div>
@@ -186,7 +114,7 @@ abbr:hover::after {
             <h6 style="text-align: center;">
               For further details on the forecast, click the buttons:
             </h6>
-            <button class="btn btn-info m-auto" onclick="">
+            <button class="btn btn-info m-auto" onclick="location.href='#popup-box';">
               How to interpret the plots
             </button>
             <button class="btn btn-info m-auto" onclick="">
@@ -197,17 +125,17 @@ abbr:hover::after {
       </div>
     </div>
 
+    <div id="popup-box" class="modal">
+      <div class="popup-content">
+        <img src="/static/img/Plot_interpretation.png" alt="SERVIR Global" style="max-height: 800px;">
+        <a href="#" style="position: absolute; top: 10px; right: 10px; color: #fe0606; font-size: 30px; text-decoration: none;">&times;</a>
+      </div>
+    </div>
+
     <h4 class="mt-2">
       Explore your own simulation scenarios
     </h4>
     <div style="border:darkgray 1px solid;border-radius: 10px;padding: 10px;margin-bottom: 30px;">
-      <div id="blur_div" style="position: absolute; height: calc(100% - 70px); width: 100%;
-      background: #ffffffa6; overflow: hidden; display: none; /* z-index: 999; */ z-index: 500;">
-      </div> 
-      <button class="btn btn-success" type="button" disabled id="spinner_button" style="position: absolute; top: 50%; left: 50%; z-index: 999;display: none">
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
-      </button>
       {% comment %} </div> {% endcomment %}
       <p>
         You can run the model and produce a forecast with the management scenario that you define. Select the managment parameters, and then click the Run Simulation button. Each time you run a new simulation, the results will be added to the chart. To clean the charts click the Clean Chart button.
@@ -215,37 +143,37 @@ abbr:hover::after {
       <div class="parameters-box">
         <h5 style="text-align: center">Select crop management parameters</h5>
         <div class="row">
-          <div class="col-6" style="padding: 15px">
+          <div class="col-md-6" style="padding: 15px">
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="startDate">
                   <abbr data-title="The date the crop was or will be planted."><i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
                   Planting date 
                 </label>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <input id="startDate" class="form-control" type="date"/>
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="cultivar">
                   <abbr data-title="Crop maturity type"> <i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
                   Cultivar
                 </label>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <select id="cultivar" class="form-select"></select>
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="irrigation">
-                  <abbr data-title="Select if irrigation is applied needed, or if no irrigation is applied"> <i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
+                  <abbr data-title="Select if irrigation is applied as needed, or if no irrigation is applied"> <i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
                   Irrigation
                 </label>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <select name="irrigation" id="irrigation", class="form-select" disabled>
                   <option value="yes">Apply Irrigation as needed</option>
                   <option value="no" selected>Don't apply irrigation</option>
@@ -254,9 +182,9 @@ abbr:hover::after {
             </div>
               
           </div>
-          <div class="col-6" style="padding: 15px">
+          <div class="col-md-6" style="padding: 15px">
             <div>
-              <abbr data-title=" Nitrogen fertilizer applications. Each application is defined by the application day (days after planting) and the application rate (Kg of Nitrogen per hectare)."><i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
+              <abbr data-title=" Nitrogen fertilizer applications. Each application is defined by the application day (days after planting) and the application rate (Kg of Nitrogen per hectare). Use the add button to add a new application."><i class="fa fa-info-circle" aria-hidden="true"></i></abbr>
               Nitrogen Fertilizer
               <table class="table table-bordered" id="nitrogen_table">
                 <thead>
@@ -296,27 +224,24 @@ abbr:hover::after {
         </div>
       </div>
       
-      
-
-      <div id="column_chart"></div>
-      <div class="row">
-        <div class="col-6" id="stress_chart_water"></div>
-        <div class="col-6" id="stress_chart_nitrogen"></div>
-      </div>
-    </div>
-    {% comment %} <div style="border:darkgray 1px solid;border-radius: 10px;padding: 10px;margin-bottom: 30px;">
-      <h5>Environmental Stress:</h5>
-        <p> 
-          Each chart shows the average stress experienced by the crop during the different developmental stages as simulated by the model. This chart gives insights on the moments where the crop is experiencing stress due to the lack of resources (water/nitrogen).
-        </p>
+      <div id="charts_container", style="display:none">
+        <div id="column_chart"></div>
         <div class="row">
           <div class="col-6" id="stress_chart_water"></div>
           <div class="col-6" id="stress_chart_nitrogen"></div>
         </div>
       </div>
-    </div> {% endcomment %}
+    </div>
   </div>
-
+  <footer id="footer">
+    <div class="ml-auto footer" style="height:50px">
+      <div class="d-flex align-items-center justify-content-between h-100">
+        <a href="https://servirglobal.net">
+          <img src="/static/img/servir_global_full_logo_white.png" alt="SERVIR Global" style="margin-left: 8px; max-height: 21px;">
+        </a>
+      </div>
+    </div>
+  </footer> 
   <script src="{% static 'js/charts.js' %}"></script>
   <script src="{% static 'highcharts_config/baseline_template.js' %}"></script>
   <script id="charts">

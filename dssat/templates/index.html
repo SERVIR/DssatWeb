@@ -20,13 +20,13 @@
   <script src="https://code.highcharts.com/modules/export-data.js"></script>
   <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
 </head>
-<body>
+<body style="height: 100vh; display:flex; flex-direction: column">
   <script>
     var shp_obj = {{ data|safe }};
   </script>
-  <nav class="navbar navbar-expand-lg navbar-light " style="background-color: darkseagreen">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}">
+  <nav class="navbar navbar-expand-lg navbar-light " style="background-color: darkolivegreen">
+    <div class="container-fluid navbar-container">
+      <a class="navbar-brand " href="{% url 'home' %}">
           <img src="{% static 'img/SERVIR_flat_white2.png' %}" alt="SERVIR logo" style="height:40px; max-width: none;">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,35 +47,27 @@
       </div>
     </div>
   </nav>
-  <div class="container-fluid p-0">
-    <div class="row h-100">
-      <div class="col-md-12 h-100">
-        <div class="row h-100">
-
-          <div class="col-md-12 h-100">
-            <div id="map">
-
-            </div>
-          </div>
+  <div class="container-fluid h-100 p-0">
+    <div class="h-100">
+      <div>
+        <div id="map">
         </div>
       </div>
     </div>
   </div>
   <div id="floating_div" style="width: 300px; background-color: white; color: darkseagreen; position: fixed; z-index: 999; top: 300; left: 20; border-radius: 20px; padding: 10px;">
-    <strong>Please click on one of the regions to explore more.</strong>
+    <strong>Please click on one of the regions to explore the latest maize yield forecast.</strong>
   </div>
+  <footer id="footer">
+    <div class="ml-auto footer" style="height:50px">
+      <div class="d-flex align-items-center justify-content-between h-100">
+        <a href="https://servirglobal.net">
+          <img src="/static/img/servir_global_full_logo_white.png" alt="SERVIR Global" style="margin-left: 8px; max-height: 21px;">
+        </a>
+      </div>
+    </div>
+  </footer> 
   <script src="{% static 'js/script.js' %}"></script>
   <script src="{% static 'highcharts_config/baseline_template.js' %}"></script>
-  <footer id="footer">
-    <div >
-        <a href="https://climateserv.servirglobal.net">ClimateSERV</a>
-    </div>
-    <div class="ml-auto">
-        <a href="https://servirglobal.net">
-            <img src="/static/frontend/img/servir_global_full_logo_white.png" alt="SERVIR Global" style="margin-left: 8px; max-height: 21px;">
-        </a>
-    </div>
-
-</footer>
 </body>
 </html>

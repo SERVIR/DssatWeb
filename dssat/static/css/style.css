@@ -30,7 +30,7 @@
 } */
 
 .charts_column {
-    height: 100%; 
+    height: auto; 
     max-width: 1024px;
     /* overflow: scroll */
 }
@@ -43,6 +43,12 @@
     /* max-height: 500px */
 }
 
+.map-box {
+    border: darkgray 1px solid;
+    border-radius: 10px;
+    margin: 20px
+}
+
 .parameters-box {
     background-color: #c7c7c7;
     border-radius: 10px;
@@ -51,5 +57,31 @@
 }
 
 .footer {
-    height: 50px,
+    height: 50px;
+    background-color: darkolivegreen
+}
+
+.navbar-container {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(163, 163, 163, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal:target {
+    display: flex;
+}
+
+.popup-content {
+    position: relative;
+    background: white;
+    padding: 1em 2em;
+    border-radius: 4px;
 }

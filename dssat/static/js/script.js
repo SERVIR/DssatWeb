@@ -87,7 +87,7 @@ legend.onAdd = function (map) {
         labels = ['Very Low', 'Low', 'Normal', 'High', 'Very High'];
 
     // loop through our density intervals and generate a label with a colored square for each interval
-    div.innerHTML += '<b>Legend</b><br>'
+    div.innerHTML += '<h5>Legend</h5>'
     for (var i = labels.length; i > 0; i--) {
         div.innerHTML +=
             '<i style="background:' + getColor(labels[i-1]) + '"></i> ' +
@@ -154,8 +154,6 @@ function onEachFeature_regions(feature, layer) {
     })
 }
 
-
-
 var  country_layer = L.geoJSON(
     shp_obj, 
     {
@@ -172,3 +170,5 @@ var  country_layer = L.geoJSON(
 
 country_layer.addTo(map);
 map.fitBounds(country_layer.getBounds());
+
+
