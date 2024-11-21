@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 import pickle
 
@@ -135,7 +135,7 @@ def charts(request, admin1='Nakuru_kenya'):
     cultivar_codes = [i for i in session.adminBase.cultivars.cultivar]
     desc = ""
     # print(cultivars, cultivars_codes)
-
+    max_date = datetime.today() + timedelta(30)
     # Render the response
     return render(request, 'charts.html', {
         'admin1': admin1_name,
@@ -148,7 +148,8 @@ def charts(request, admin1='Nakuru_kenya'):
         'range_chart': to_js_literal(r_chart),
         # 'anomaly_chart': to_js_literal(anom_chart),
         'stress_chart_water': to_js_literal(stress_chart_water),
-        'stress_chart_nitrogen': to_js_literal(stress_chart_nitrogen)
+        'stress_chart_nitrogen': to_js_literal(stress_chart_nitrogen),
+        'max_date': max_date
     })
 
 
@@ -176,6 +177,8 @@ def run_experiment(request, admin1):
     session.simPars.nitrogen_dap = [
         int(i) for i in request.POST.getlist('nitrogen_dap[]')
     ]
+    session.simPars.irrigation = request.POST.get('irrigation') == "yes"
+    print(session.simPars)
     session.run_experiment(fakerun=True)
 
     # Update charts with new data

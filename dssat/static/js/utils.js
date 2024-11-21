@@ -51,11 +51,13 @@ function generate_charts() {
     rate = get_rates();
     planting_date = $('#startDate').val();
     cultivar = $('#cultivar').val();
+    irrigation = $('#irrigation').val();
 
     console.log(planting_date);
     console.log(cultivar);
     console.log(daps);
     console.log(rate);
+    console.log(irrigation);
     if(daps.length===0)
         daps=[0]
     if(rate.length===0)
@@ -78,6 +80,7 @@ function generate_charts() {
         'dbname': 'dssatserv',
         'schema': admin1_country,
         'admin1': admin1,
+        'irrigation': irrigation
     }
     var xhr = ajax_call('run-experiment/', json_data);
     xhr.done(function (data) {

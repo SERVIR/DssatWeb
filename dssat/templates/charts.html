@@ -1,51 +1,51 @@
 <html lang="en">
 {% load static %}
 <head>
-    <title>DSSAT-Web</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin=""/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
+  <title>DSSAT-Web</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+          integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
 
-    <script src="https://code.highcharts.com/modules/streamgraph.js"></script>
-    <script src="https://code.highcharts.com/modules/series-label.js"></script>
-    <script src="https://code.highcharts.com/modules/annotations.js"></script>
-    {% comment %} <script src="https://code.highcharts.com/modules/exporting.js"></script> {% endcomment %}
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="{% static 'js/utils.js' %}"></script>
-    <style>
-        abbr {
-    position: relative;
-}
-abbr:hover::after {
-    content: attr(data-title);
-    position: absolute;
-    width: 300px;
-    left: 100%;
-    display: block;
-    padding: 0.5em;
-    background: white;
-    color:black;
-    border: solid black 1px;
-    z-index: 1000;
-}
-    </style>
+  <script src="https://code.highcharts.com/modules/streamgraph.js"></script>
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/annotations.js"></script>
+  {% comment %} <script src="https://code.highcharts.com/modules/exporting.js"></script> {% endcomment %}
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="{% static 'js/utils.js' %}"></script>
+  <style>
+    abbr {
+      position: relative;
+    }
+    abbr:hover::after {
+        content: attr(data-title);
+        position: absolute;
+        width: 300px;
+        left: 100%;
+        display: block;
+        padding: 0.5em;
+        background: white;
+        color:black;
+        border: solid black 1px;
+        z-index: 1000;
+    }
+  </style>
 </head>
 
 <body>
@@ -54,6 +54,8 @@ abbr:hover::after {
     var cultivar_codes={{ cultivar_codes|safe }};
     var admin1='{{ admin1|safe }}';
     var admin1_country='{{ admin1_country|safe }}';
+    var max_date = '{{ max_date|date:"Y-m-d" }}';
+    console.log(max_date);
   </script>
 
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkolivegreen;height: 70px">
@@ -101,7 +103,7 @@ abbr:hover::after {
         This forecast was generated by simulating the crop season multiple times under different conditions. Such conditions represent the soil and weather variability within <span id="admin1">{{admin1}}</span>. Therefore, the forecast is conformed by multiple values that are a result of simulating one season for different soil and weather conditions in the region.
       </p>
       <h6>
-        The plots below sumarize the results of the forecast. The left hand side plot shows the distribution of the simulated yield values. The right hand side plot shows the crop water and nitrogen fertilizer stress during the season across different phenological stages.
+        The plots below sumarize the results of the forecast. The <i>DSSAT simulated maize yield</i> plot shows the distribution of the simulated yield values. The <i>Stress indexes</i> plot shows the crop water and nitrogen fertilizer stress during the season across different phenological stages.
       </h6>
       <div class="row">
         <div class="col-md-3" id="forecast_chart"></div>
@@ -118,7 +120,7 @@ abbr:hover::after {
               How to interpret the plots
             </button>
             <button class="btn btn-info m-auto" onclick="">
-              How reliable is the model
+              Forecast methodology
             </button>
           </div>
         </div>
@@ -127,7 +129,7 @@ abbr:hover::after {
 
     <div id="popup-box" class="modal">
       <div class="popup-content">
-        <img src="/static/img/Plot_interpretation.png" alt="SERVIR Global" style="max-height: 800px;">
+        <img src="/static/img/Plot_interpretation.png" alt="SERVIR Global" style="max-height: 600px;">
         <a href="#" style="position: absolute; top: 10px; right: 10px; color: #fe0606; font-size: 30px; text-decoration: none;">&times;</a>
       </div>
     </div>
@@ -138,7 +140,7 @@ abbr:hover::after {
     <div style="border:darkgray 1px solid;border-radius: 10px;padding: 10px;margin-bottom: 30px;">
       {% comment %} </div> {% endcomment %}
       <p>
-        You can run the model and produce a forecast with the management scenario that you define. Select the managment parameters, and then click the Run Simulation button. Each time you run a new simulation, the results will be added to the chart. To clean the charts click the Clean Chart button.
+        You can run the model and produce a forecast with the management scenario that you define. Select the managment parameters, and then click the Run <i>Simulation button</i>. Each time you run a new simulation, the results will be added to the chart. To reset the charts click the <i>Clean Chart</i> button.
       </p>
       <div class="parameters-box">
         <h5 style="text-align: center">Select crop management parameters</h5>
@@ -152,7 +154,7 @@ abbr:hover::after {
                 </label>
               </div>
               <div class="col-md-6">
-                <input id="startDate" class="form-control" type="date"/>
+                <input id="startDate" class="form-control" type="date", value="2024-03-01" min="2000-01-01", max='{{max_date|date:"Y-m-d" }}'/>
               </div>
             </div>
             <div class="row">
@@ -174,7 +176,7 @@ abbr:hover::after {
                 </label>
               </div>
               <div class="col-md-6">
-                <select name="irrigation" id="irrigation", class="form-select" disabled>
+                <select name="irrigation" id="irrigation", class="form-select">
                   <option value="yes">Apply Irrigation as needed</option>
                   <option value="no" selected>Don't apply irrigation</option>
                 </select>
