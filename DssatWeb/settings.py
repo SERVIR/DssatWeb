@@ -103,6 +103,62 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s, %(asctime)s, %(module)s, %(process)d, %(thread)d, %(message)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s, %(message)s'
+        },
+    },
+    'filters': {
+
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '/var/log/dssat/dssat.log',
+            'when': 'midnight',
+            'backupCount': 10,
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+        'propagate': False,
+    },
+    'django.request': {
+        'handlers': ['file'],
+        'level': 'ERROR',
+        'propagate': False,
+    },
+    'django.db.backends': {
+        'handlers': ['file'],
+        'level': 'WARNING',
+        'propagate': False,
+    },
+    'dssat': {  # Your DSSAT application logger
+        'handlers': ['console', 'file'],
+        'level': 'DEBUG',
+        'propagate': False,
+    }   
+ },
+}
+
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

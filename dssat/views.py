@@ -12,6 +12,8 @@ from pandas_highcharts.core import serialize
 import os
 import geopandas as gpd
 import json
+import logging
+
 
 import geojson
 from dssatservice.ui.base import AdminBase, Session
@@ -22,6 +24,9 @@ from dssatservice.ui.plot import (
     current_forecast_yield_plot, current_forecast_stress_plot
 )
 from highcharts_core.chart import Chart
+
+logger = logging.getLogger('dssat')
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 f = open(str(BASE_DIR) + '/data.json', )
@@ -169,6 +174,8 @@ def run_experiment(request, admin1):
     water_stress_chart = request.session.get('sw')
     nitro_stress_chart = request.session.get('sn')
     # Update session parameters
+    logger.debug("Debug message: Entering sample_view")
+    logger.debug(request.POST.get('planting_date') + " - Date")
     session.simPars.planting_date = datetime.strptime(request.POST.get('planting_date'), '%Y-%m-%d')
     session.simPars.cultivar = request.POST.get('cultivar')
     session.simPars.nitrogen_rate = [
@@ -179,7 +186,7 @@ def run_experiment(request, admin1):
     ]
     session.simPars.irrigation = request.POST.get('irrigation') == "yes"
     print(session.simPars)
-    session.run_experiment(fakerun=True)
+    session.run_experiment(fakerun=False)
 
     # Update charts with new data
     series_len = len(range_chart["userOptions"]["series"])
